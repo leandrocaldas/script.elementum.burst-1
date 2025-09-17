@@ -1,0 +1,48 @@
+name: Extrair ZIP
+
+on:
+  check_run:
+    branches:
+      - main
+    paths:
+      - 'script.elementum.burst.zip'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unzip_and_commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar o repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar unzip
+        run: sudo apt-get update && sudo apt-get install unzip -y
+
+      - name: Extrair ZIP na raiz do projeto
+        run: |
+          unzip -o script.elementum.burst.zip
+          chmod -R u+rwX,go+rX .
+
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Verificar alterações
+        run: git status
+
+      - name: Commit e Push
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "Extração automática de script.elementum.burst.zip"
+            git push
+          else
+            echo "Nenhuma alterações detectada."
+          fi
