@@ -643,7 +643,7 @@
         "anime_extra": "",
         "anime_keywords": "{title:br}",
         "anime_query": "EXTRA",
-        "base_url": "https://www.starckfilmes.fans/?s=QUERY",
+        "base_url": "https://starck-filmes.site/?s=QUERY",
         "color": "FFF14E13",
 	"enabled": true,
         "general_extra": "",
