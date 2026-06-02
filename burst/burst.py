@@ -965,7 +965,7 @@ def extract_from_page(provider, content):
     definition = get_alias(definition, get_setting("%s_alias" % provider))
 
     try:
-        matches = re.findall(r'magnet:\?[^\'"\s<>\[\]]+', content)
+        matches = re.findall(r'(magnet:\?[^\'"\s<>\[\]]*?)(?:://[^\'"\s<>\[\]]*)?(?=[\'"\s<>\[\]]|$)', content)
         if matches:
             #result = matches # burst: return all results
             log.debug('[%s] Matched magnet link: %s' % (provider, repr(matches)))
